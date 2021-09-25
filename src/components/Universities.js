@@ -116,8 +116,9 @@ class Universities extends Component {
 
 export default Universities;
 
-// show all needs dropdown of counties so when pick a county show only schools from that country
-// filter show only the countries from whatever is desplaying on page 
+// show all needs dropdown of countries so when pick a country show only schools from that country ✅
+// searched schools have dropdown of only countries they are from ✅
+// filter for search show search results for schools and what country picked from dropdown ❌
 
 
 // ASK HOW TO REMOVE EXACT DUPLICATES *extra*
@@ -127,7 +128,7 @@ export default Universities;
     //     // console.log(res.data)
     //     let schools = res.data
     //     console.log({schools})
-    
+    // NEED TO FILTER OUT EXACT NAME & COUNTRY... this just does name
     //     let seen = new Set();
     //  let removeDups = schools.filter(item => {
     //     return seen.has(item.name)  ? false : seen.add(item.name) ;
