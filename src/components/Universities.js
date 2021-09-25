@@ -16,14 +16,30 @@ class Universities extends Component {
         // console.log(res.data)
         let schools = res.data
         console.log({schools})
-        let seen = new Set();
-     let removeDups = schools.filter(item => {
-        return seen.has(item.name) ? false : seen.add(item.name);
+    // ASK HOW TO REMOVE EXACT DUPLICATES
+    //     let seen = new Set();
+    //  let removeDups = schools.filter(item => {
+    //     return seen.has(item.name)  ? false : seen.add(item.name) ;
+    // })
+    // console.log({removeDups})
+    // removeDups.sort((a,b)=> a.name.localeCompare(b.name))
+    //     this.setState({universities: removeDups})
+    //   })
+   
+    //   console.log({schools})
+    // let seen = new Set();
+    // let removeDups = schools.filter(item => {
+    //     return seen.has(item.name) ? false : seen.add(item.name);
+    // })
+    //   console.log({removeDups})
+    // removeDups.sort((a,b)=> a.name.localeCompare(b.name))
+    //     this.setState({universities: removeDups})
+    // })
+        
+       let result = schools.sort((a,b)=> a.name.localeCompare(b.name))
+        this.setState({universities: result})
     })
-    console.log({removeDups})
-    removeDups.sort((a,b)=> a.name.localeCompare(b.name))
-        this.setState({universities: removeDups})
-      })
+
   }
   
   showAllUniversities = ()=>{
@@ -44,18 +60,19 @@ class Universities extends Component {
       .then(res => {
     let schools = res.data
       console.log({schools})
-    let seen = new Set();
-    let removeDups = schools.filter(item => {
-        return seen.has(item.name) ? false : seen.add(item.name);
+    // ASK HOW TO REMOVE EXACT DUPLICATES
+    // let seen = new Set();
+    // let removeDups = schools.filter(item => {
+    //     return seen.has(item.name) ? false : seen.add(item.name);
+    // })
+    //   console.log({removeDups})
+    // removeDups.sort((a,b)=> a.name.localeCompare(b.name))
+    //     this.setState({universities: removeDups})
+    // })
+        
+    let result = schools.sort((a,b)=> a.name.localeCompare(b.name))
+        this.setState({universities: result})
     })
-      console.log({removeDups})
-    removeDups.sort((a,b)=> a.name.localeCompare(b.name))
-        this.setState({universities: removeDups})
-    })
-      //   console.log(res.data)
-      //  let result = res.data.sort((a,b)=> a.name.localeCompare(b.name))
-      //   this.setState({universities: result})
-      // })
   }
 
 
@@ -71,3 +88,6 @@ class Universities extends Component {
 }
 
 export default Universities;
+
+
+// 
