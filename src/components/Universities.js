@@ -8,10 +8,10 @@ class Universities extends Component {
   state={
     universities: [],
     countryList: [],
-    filteredU: []
+    filteredU: [],
+    searchList:[],
   }
 
-   
     componentDidMount() {
       axios.get("http://universities.hipolabs.com/search")
       .then(res => {
@@ -30,7 +30,7 @@ class Universities extends Component {
         // console.log(countries.length)
         // console.log(countryList.length)
         
-       let result = schools.sort((a,b)=> a.name.localeCompare(b.name))
+      let result = schools.sort((a,b)=> a.name.localeCompare(b.name))
         this.setState({
           universities: result, //use this to always have full data
           filteredU: result, // make a filtered for use with filters
@@ -40,11 +40,9 @@ class Universities extends Component {
 
   }
   
- 
-  
   showAllUniversities = ()=>{
-   return this.state.filteredU.map((u,i)=>{
-     return <li key={i}><Link to={`/schools/${u.name}`}>{u.name}</Link></li>
+  return this.state.filteredU.map((u,i)=>{
+    return <li key={i}><Link to={`/schools/${u.name}`}>{u.name}</Link></li>
 
 
     })
@@ -74,24 +72,30 @@ class Universities extends Component {
     filtered.sort((a,b)=> a.name.localeCompare(b.name))
     this.setState({
       filteredU: filtered,
-      countryList: searchCountryList
+      countryList: searchCountryList,
+      searchList: filtered
     })
 
   }
 
-  // everything works for all & up to search and pick country...then pick another country get 0 
+
   handleChange(e){
     console.log(e.target.value)
-    let pickedCountry = this.state.filteredU.filter(u=> u.country === e.target.value)
-    console.log(pickedCountry.length)
+    let pickedCountry = this.state.universities.filter(u=> u.country === e.target.value)
+
+    let pickedCountrySearch = this.state.searchList.filter(u=> u.country === e.target.value)
+
+    // console.log(pickedCountry.length)
+    // console.log('search country', pickedCountrySearch.length)
+    // console.log('serach list', this.state.searchList.length)
     this.setState({
-      filteredU: e.target.value === "all" ? this.state.universities : pickedCountry,
+      filteredU: e.target.value === "all" && this.state.searchList.length === 0 ? this.state.universities : 
+      this.state.searchList.length && e.target.value === "all" ? this.state.searchList : 
+      this.state.searchList.length && e.target.value !== "all" ?pickedCountrySearch : pickedCountry
     })
   }
 
 
-   
- 
   render() {
     return (
       <div> 
@@ -108,7 +112,7 @@ class Universities extends Component {
         }
         </select>
         <hr />
-       {this.showAllUniversities()}
+      {this.showAllUniversities()}
       </div>
     );
   }
@@ -118,7 +122,8 @@ export default Universities;
 
 // show all needs dropdown of countries so when pick a country show only schools from that country ✅
 // searched schools have dropdown of only countries they are from ✅
-// filter for search show search results for schools and what country picked from dropdown ❌
+// filter for search show search results for schools and what country picked from dropdown ✅
+
 
 
 // ASK HOW TO REMOVE EXACT DUPLICATES *extra*
