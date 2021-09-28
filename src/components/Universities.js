@@ -9,7 +9,8 @@ class Universities extends Component {
     universities: [],
     countryList: [],
     filteredU: [],
-    searchList:[],
+    select: "",
+    search: ""
   }
 
     componentDidMount() {
@@ -41,69 +42,96 @@ class Universities extends Component {
   }
   
   showAllUniversities = ()=>{
-  return this.state.filteredU.map((u,i)=>{
-    return <li key={i}><Link to={`/schools/${u.name}`}>{u.name}</Link></li>
+  // if u country includes select and includes search
+  console.log(this.state)
+    return this.state.universities.map((u,i)=>{
+    if(u.name.toLowerCase().includes(this.state.search.toLowerCase()) && u.country.toLowerCase().includes(this.state.select)){
+      return <li key={i}><Link to={`/schools/${u.name}`}>{u.name}</Link></li>
+      
+    }
 
-
-    })
+  });
+      
   }
 
 
 
-  handleSearch(e){
-    console.log(e.target.value)
+  // handleSearch(e){
+  //   console.log(e.target.value)
 
-    const filtered = this.state.universities.filter(u => u.name.toLowerCase().includes(e.target.value.toLowerCase()))
+  //   const filtered = this.state.universities.filter(u => u.name.toLowerCase().includes(e.target.value.toLowerCase()))
         
 
-    let searchCountries = filtered.map(e=> e = e.country)
-    console.log({searchCountries})
+  //   let searchCountries = filtered.map(e=> e = e.country)
+  //   console.log({searchCountries})
 
-        let searchCountryList = []
-        searchCountries.forEach(item => {
-          if(searchCountryList.indexOf(item) < 0) {
-            searchCountryList.push(item);
-          }
-        });
-        console.log(searchCountries.length)
-        console.log(searchCountryList.length)
+  //       let searchCountryList = []
+  //       searchCountries.forEach(item => {
+  //         if(searchCountryList.indexOf(item) < 0) {
+  //           searchCountryList.push(item);
+  //         }
+  //       });
+  //       console.log(searchCountries.length)
+  //       console.log(searchCountryList.length)
 
-    searchCountryList.sort((a,b)=> a.localeCompare(b))
-    filtered.sort((a,b)=> a.name.localeCompare(b.name))
-    this.setState({
-      filteredU: filtered,
-      countryList: searchCountryList,
-      searchList: filtered
-    })
+  //   searchCountryList.sort((a,b)=> a.localeCompare(b))
+  //   filtered.sort((a,b)=> a.name.localeCompare(b.name))
+  //   this.setState({
+  //     filteredU: filtered,
+  //     countryList: searchCountryList,
+  //     searchList: filtered
+  //   })
 
-  }
+  // }
 
-
+// make prop that gets countries to update countrylist create function that gets availible countries filter list of availible countries set state for countrieslist
   handleChange(e){
     console.log(e.target.value)
-    let pickedCountry = this.state.universities.filter(u=> u.country === e.target.value)
-
-    let pickedCountrySearch = this.state.searchList.filter(u=> u.country === e.target.value)
-
-    // console.log(pickedCountry.length)
-    // console.log('search country', pickedCountrySearch.length)
-    // console.log('serach list', this.state.searchList.length)
+    const { name, value } = e.target;
     this.setState({
-      filteredU: e.target.value === "all" && this.state.searchList.length === 0 ? this.state.universities : 
-      this.state.searchList.length && e.target.value === "all" ? this.state.searchList : 
-      this.state.searchList.length && e.target.value !== "all" ?pickedCountrySearch : pickedCountry
-    })
+      [name]: value,
+
+    });
+  
+
   }
+
+
+
+
+
+
+
+
+
+
+// 2 handleChange for search & country
+// *** DOES NOT WORK FOR WHEN SEARCH CHANGES***
+  // handleChange(e){
+  //   console.log(e.target.value)
+  //   let pickedCountry = this.state.universities.filter(u=> u.country === e.target.value)
+
+  //   let pickedCountrySearch = this.state.searchList.filter(u=> u.country === e.target.value)
+
+  //   // console.log(pickedCountry.length)
+  //   // console.log('search country', pickedCountrySearch.length)
+  //   // console.log('serach list', this.state.searchList.length)
+  //   this.setState({
+  //     filteredU: e.target.value === "all" && this.state.searchList.length === 0 ? this.state.universities : 
+  //     this.state.searchList.length && e.target.value === "all" ? this.state.searchList : 
+  //     this.state.searchList.length && e.target.value !== "all" ?pickedCountrySearch : pickedCountry
+  //   })
+  // }
 
 
   render() {
     return (
       <div> 
-      <SearchBar search={(e)=>this.handleSearch(e)} />
+      <SearchBar search={(e)=>this.handleChange(e)} />
       <h1><u>World Universities</u></h1>
       <label for="country">Choose a Country:</label>
-        <select onChange={(e)=>this.handleChange(e)} name="country" id="country">
-        <option  value="all">ALL</option>
+        <select onChange={(e)=>this.handleChange(e)} name="select" id="country">
+        <option  value="">ALL</option>
         {this.state.countryList.map((c,i)=> {
             return (
             <option key={i} value={c}>{c}</option>
