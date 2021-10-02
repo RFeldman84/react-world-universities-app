@@ -7,7 +7,6 @@ class Universities extends Component {
 	state = {
 		universities: [],
 		countryList: [],
-		filteredU: [],
 		select: "",
 		search: "",
 	}
@@ -15,22 +14,17 @@ class Universities extends Component {
 	componentDidMount() {
 		axios.get("http://universities.hipolabs.com/search").then(res => {
 			// console.log(res.data)
-
 			const countryList = this.filteredCountyList(res.data, this.state.search)
-
-			// console.log(countryList.length)
-
 			let result = res.data.sort((a, b) => a.name.localeCompare(b.name))
+
 			this.setState({
-				universities: result, //use this to always have full data
-				filteredU: result, // make a filtered for use with filters
+				universities: result, 
 				countryList,
 			})
 		})
 	}
 
 	showAllUniversities = () => {
-		// if u country includes select and includes search
 		// console.log(this.state)
 		return this.state.universities.map((u, i) => {
 			if (
@@ -46,32 +40,6 @@ class Universities extends Component {
 		})
 	}
 
-	// handleSearch(e){
-	//   console.log(e.target.value)
-
-	//   const filtered = this.state.universities.filter(u => u.name.toLowerCase().includes(e.target.value.toLowerCase()))
-
-	//   let searchCountries = filtered.map(e=> e = e.country)
-	//   console.log({searchCountries})
-
-	//       let searchCountryList = []
-	//       searchCountries.forEach(item => {
-	//         if(searchCountryList.indexOf(item) < 0) {
-	//           searchCountryList.push(item);
-	//         }
-	//       });
-	//       console.log(searchCountries.length)
-	//       console.log(searchCountryList.length)
-
-	//   searchCountryList.sort((a,b)=> a.localeCompare(b))
-	//   filtered.sort((a,b)=> a.name.localeCompare(b.name))
-	//   this.setState({
-	//     filteredU: filtered,
-	//     countryList: searchCountryList,
-	//     searchList: filtered
-	//   })
-
-	// }
 
 	filteredCountyList(list, search) {
 		let filterList = []
@@ -85,17 +53,15 @@ class Universities extends Component {
 			})
 		return filterList.sort((a, b) => a.localeCompare(b))
 	}
-	// make prop that gets countries to update countrylist create function that gets availible countries filter list of availible countries set state for countrieslist
+
 	handleChange(e) {
 		// console.log(e.target)
 		const { name, value } = e.target
 		console.log(e.target.value, this.state.search)
-		// name === search and value !== state.search
 		const filtered =
 			name === "search" && value !== this.state.search
 				? this.filteredCountyList(this.state.universities, value)
 				: this.state.countryList
-
 		// console.log({filtered})
 
 		// if (name === "search" && value === "") {
@@ -111,24 +77,6 @@ class Universities extends Component {
 			})
 		// }
 	}
-
-	// 2 handleChange for search & country
-	// *** DOES NOT WORK FOR WHEN SEARCH CHANGES***
-	// handleChange(e){
-	//   console.log(e.target.value)
-	//   let pickedCountry = this.state.universities.filter(u=> u.country === e.target.value)
-
-	//   let pickedCountrySearch = this.state.searchList.filter(u=> u.country === e.target.value)
-
-	//   // console.log(pickedCountry.length)
-	//   // console.log('search country', pickedCountrySearch.length)
-	//   // console.log('serach list', this.state.searchList.length)
-	//   this.setState({
-	//     filteredU: e.target.value === "all" && this.state.searchList.length === 0 ? this.state.universities :
-	//     this.state.searchList.length && e.target.value === "all" ? this.state.searchList :
-	//     this.state.searchList.length && e.target.value !== "all" ?pickedCountrySearch : pickedCountry
-	//   })
-	// }
 
 	render() {
 		return (
@@ -162,9 +110,67 @@ class Universities extends Component {
 
 export default Universities
 
+
+
+
+
+//////~~~NOTES & OLD CODE ~~~~~~///////
+
 // show all needs dropdown of countries so when pick a country show only schools from that country ✅
 // searched schools have dropdown of only countries they are from ✅
 // filter for search show search results for schools and what country picked from dropdown ✅
+
+
+
+
+
+	// *** DOES NOT WORK FOR WHEN SEARCH CHANGES***
+	// handleChange(e){
+	//   console.log(e.target.value)
+	//   let pickedCountry = this.state.universities.filter(u=> u.country === e.target.value)
+
+	//   let pickedCountrySearch = this.state.searchList.filter(u=> u.country === e.target.value)
+
+	//   // console.log(pickedCountry.length)
+	//   // console.log('search country', pickedCountrySearch.length)
+	//   // console.log('serach list', this.state.searchList.length)
+	//   this.setState({
+	//     filteredU: e.target.value === "all" && this.state.searchList.length === 0 ? this.state.universities :
+	//     this.state.searchList.length && e.target.value === "all" ? this.state.searchList :
+	//     this.state.searchList.length && e.target.value !== "all" ?pickedCountrySearch : pickedCountry
+	//   })
+	// }
+
+// ***ONLY NEED ONE HANDLE CHANGE***
+	// handleSearch(e){
+	//   console.log(e.target.value)
+
+	//   const filtered = this.state.universities.filter(u => u.name.toLowerCase().includes(e.target.value.toLowerCase()))
+
+	//   let searchCountries = filtered.map(e=> e = e.country)
+	//   console.log({searchCountries})
+
+	//       let searchCountryList = []
+	//       searchCountries.forEach(item => {
+	//         if(searchCountryList.indexOf(item) < 0) {
+	//           searchCountryList.push(item);
+	//         }
+	//       });
+	//       console.log(searchCountries.length)
+	//       console.log(searchCountryList.length)
+
+	//   searchCountryList.sort((a,b)=> a.localeCompare(b))
+	//   filtered.sort((a,b)=> a.name.localeCompare(b.name))
+	//   this.setState({
+	//     filteredU: filtered,
+	//     countryList: searchCountryList,
+	//     searchList: filtered
+	//   })
+
+	// }
+
+
+
 
 // ASK HOW TO REMOVE EXACT DUPLICATES *extra*
 // componentDidMount() {
